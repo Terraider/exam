@@ -15,15 +15,14 @@ pipeline {
                 }
             stage("create docker image") {
                 steps {
-                        dir('')
-                        sh 'docker build -t $work $registry:$BUILD_NUMBER .'
+                        sh 'docker build -t $registry:$BUILD_NUMBER .'
                     }
                 }
             stage("docker push") {
                 steps {
                     dir ('dockers'){
-                    git tag -a $registry
-                    sh 'docker push $work $registry:$BUILD_NUMBER'
+                        git 'describe'
+                        sh 'docker push $work $registry:$BUILD_NUMBER'
                 }
             }
         }
