@@ -22,7 +22,7 @@ pipeline {
             stage("docker push") {
                 steps {
                     dir ('dockers'){
-                    git tag -a $BUILD_NUMBER -m "$registry"
+                    git tag -a "$BUILD_NUMBER" -m "$registry"
                     sh 'docker push $work $registry:$BUILD_NUMBER'
                 }
             }
