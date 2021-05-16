@@ -1,28 +1,31 @@
-pipeline {
+ pipeline {
     environment
         {
-            registry='Exam/dokers'
-            work='exam'
+            gitt=''
         }
-    agent { 
+    agent{ 
             label 'master'
         }
     stages {
             stage('Cloning our Git') { 
-               steps {
+               steps{
+                   // клонируем репозиторий на котором лежит всё нужное.
                     git 'https://github.com/Terraider/exam.git'
                     }
                 }
             stage("create docker image") {
-                steps {
-                        sh 'docker build -t $registry:$BUILD_NUMBER .'
+                steps{
+                        // выводим тег из текущей ветки и переводим в переменную.
+                        gitt = git 'describe --abbrev=0 --tags'
+                        // создаем контейнер с тегом ветки, который мы получили только что.
+                        sh 'docker build -t $gitt .'
                     }
                 }
             stage("docker push") {
                 steps {
                     dir ('dockers'){
-                        git 'describe'
-                        sh 'docker push $work $registry:$BUILD_NUMBER'
+                        // переходим в папку (dokers), и кладём туда наш контейнер.
+                        sh 'docker push $gitt'
                 }
             }
         }
