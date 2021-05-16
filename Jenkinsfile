@@ -24,7 +24,8 @@
             stage("docker push") {
                 steps {
                     dir ('dockers'){
-                        // переходим в папку (dokers), и кладём туда наш контейнер.
+                        git 'tag $gitt'
+                        // переходим в папку (dokers), и кладём туда наш контейнер
                         sh 'docker push $gitt'
                 }
             }
