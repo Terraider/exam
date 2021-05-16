@@ -2,6 +2,7 @@
     environment
         {
             gitt=''
+            version
         }
     agent{ 
             label 'master'
@@ -26,7 +27,7 @@
                     dir ('dockers'){
                         git 'tag $gitt'
                         // переходим в папку (dokers), и кладём туда наш контейнер
-                        sh 'docker push $gitt'
+                        sh 'docker push exam/dockers:$gitt '
                 }
             }
         }
